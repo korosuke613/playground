@@ -1,4 +1,4 @@
-# .github/workflows/ci.yml
+# CI for earthly/reduce-code-duplication
 
 name: Earthly Go
 
