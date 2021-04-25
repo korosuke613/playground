@@ -1,0 +1,35 @@
+on:
+  workflow_dispatch
+
+jobs:
+  normal-job:
+    runs-on: ubuntu-20.04
+    steps:
+      - run: sleep 5
+
+  concurrency-job:
+    runs-on: ubuntu-20.04
+    concurrency:
+      group: this_is_concurrency_job
+      cancel-in-progress: true
+    steps:
+      - run: sleep 60
+
+  dependent-job:
+    runs-on: ubuntu-20.04
+    needs:
+      - normal-job
+    concurrency:
+      group: this_is_concurrency_job2
+      cancel-in-progress: true
+    steps:
+      - run: sleep 20
+
+  after-job:
+    runs-on: ubuntu-20.04
+    needs:
+      - dependent-job
+    concurrency:
+      this_is_concurrency_job
+    steps:
+      - run: sleep 5
