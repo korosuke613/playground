@@ -1,0 +1,14 @@
+version: 2.1
+
+setup: true
+
+orbs:
+  path-filtering: circleci/path-filtering@0.0.2
+
+workflows:
+  setup-workflow:
+    jobs:
+      - path-filtering/filter:
+          config-path: .circleci/go.yml
+          mapping: |
+            go/helloworld/.* go-hello-world true
