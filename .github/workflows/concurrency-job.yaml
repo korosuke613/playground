@@ -1,0 +1,37 @@
+on:
+  workflow_dispatch
+
+jobs:
+  normal-job:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - run: sleep 10
+
+  concurrency-job:
+    runs-on: ubuntu-20.04
+    concurrency:
+      this_is_concurrency_job
+    steps:
+      - uses: actions/checkout@v2
+      - run: sleep 60
+
+  dependent-job:
+    runs-on: ubuntu-20.04
+    needs:
+      - normal-job
+    concurrency:
+      this_is_concurrency_job_2
+    steps:
+      - uses: actions/checkout@v2
+      - run: sleep 30
+
+  after-job:
+    runs-on: ubuntu-20.04
+    needs:
+      - dependent-job
+    concurrency:
+      this_is_concurrency_job
+    steps:
+      - uses: actions/checkout@v2
+      - run: sleep 10
