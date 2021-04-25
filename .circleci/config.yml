@@ -1,10 +1,10 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 jobs:
-  build:
+  go-helloworld-build:
     working_directory: ~/repo/go/helloworld
     docker:
-      - image: circleci/golang:1.15.8
+      - image: circleci/golang:1.16.3
     steps:
       - checkout:
           path: ~/repo
@@ -26,3 +26,35 @@ jobs:
           name: Exec
           command: |
             ./helloworld
+
+  go-helloworld-test:
+    working_directory: ~/repo/go/helloworld
+    docker:
+      - image: circleci/golang:1.16.3
+    steps:
+      - checkout:
+          path: ~/repo
+      - restore_cache:
+          keys:
+            - go-mod-v4-{{ checksum "go.sum" }}
+      - run:
+          name: Install Dependencies
+          command: go mod download
+      - save_cache:
+          key: go-mod-v4-{{ checksum "go.sum" }}
+          paths:
+            - "/go/pkg/mod"
+      - run:
+          name: Run tests
+          command: |
+            mkdir -p /tmp/test-reports
+            gotestsum --junitfile /tmp/test-reports/unit-tests.xml
+      - store_test_results:
+          path: /tmp/test-reports
+
+workflows:
+  version: 2
+  go-helloworld:
+    jobs:
+      - go-helloworld-build
+      - go-helloworld-test
