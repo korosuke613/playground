@@ -1,0 +1,12 @@
+on:
+  workflow_dispatch
+
+concurrency:
+  this_is_concurrency_workflow
+
+jobs:
+  concurrency_workflow:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - run: sleep 60
