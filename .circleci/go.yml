@@ -18,6 +18,12 @@ commands:
       - go/save-cache
 
 jobs:
+  pass:
+    machine:
+      image: ubuntu-2004:202101-01
+    steps:
+      - run: echo "This job is nothing to do. Because without the job, the workflow will fail."
+
   go-helloworld-build:
     working_directory: ~/repo/go/helloworld
     executor:
@@ -67,6 +73,11 @@ jobs:
 
 workflows:
   version: 2
+
+  pass:
+    jobs:
+      - pass
+
   go-helloworld:
     when: << pipeline.parameters.go-helloworld >>
     jobs:
