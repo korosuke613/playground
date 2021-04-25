@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - run: sleep 10
+      - run: sleep 5
 
   concurrency-job:
     runs-on: ubuntu-20.04
@@ -24,7 +24,7 @@ jobs:
       this_is_concurrency_job_2
     steps:
       - uses: actions/checkout@v2
-      - run: sleep 30
+      - run: sleep 20
 
   after-job:
     runs-on: ubuntu-20.04
@@ -34,4 +34,4 @@ jobs:
       this_is_concurrency_job
     steps:
       - uses: actions/checkout@v2
-      - run: sleep 10
+      - run: sleep 5
