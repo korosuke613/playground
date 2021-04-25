@@ -11,4 +11,4 @@ workflows:
       - path-filtering/filter:
           config-path: .circleci/go.yml
           mapping: |
-            go/helloworld/.* go-hello-world true
+            go/helloworld/.* go-helloworld true
