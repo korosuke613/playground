@@ -1,5 +1,2 @@
 # playground
-
-## directories
-
-- [earthly](./earthly): Playground for [Earthly](https://docs.earthly.dev).
+A repository of some kind of experiment.
