@@ -1,5 +1,7 @@
 # Use google/zx with typescript
 
+memo: https://zenn.dev/korosuke613/scraps/07729cd55a628b
+
 ## Using ts-node
 setup
 ```
