@@ -1,5 +1,8 @@
 {
   "type": "module",
+  "scripts": {
+    "checkDirtyWorkingTreeForGit": "node --loader ts-node/esm checkDirtyWorkingTreeForGit.ts"
+  },
   "dependencies": {
     "zx": "^1.2.2"
   },
