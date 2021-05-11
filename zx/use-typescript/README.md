@@ -1,4 +1,4 @@
-# use-typescript for zx
+# Use google/zx with typescript
 
 ## Using ts-node
 setup
