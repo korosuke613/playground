@@ -83,7 +83,7 @@ jobs:
               value: << pipeline.git.branch >>
           steps:
             - run: "echo Hello matches with step"
-      - run: "Done!!"
+      - run: "echo Done!!"
 
 workflows:
   version: 2
