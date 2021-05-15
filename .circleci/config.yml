@@ -5,6 +5,14 @@ setup: true
 orbs:
   path-filtering: circleci/path-filtering@0.0.2
 
+jobs:
+  try-matches:
+    machine:
+      image: ubuntu-2004:202010-01
+    steps:
+      - run: "echo Hello mathces!"
+
+
 workflows:
   setup-workflow:
     jobs:
@@ -12,3 +20,10 @@ workflows:
           config-path: .circleci/go.yml
           mapping: |
             go/helloworld/.* go-helloworld true
+  try-matches:
+    when:
+      matches:
+        pattern: "^try-matches$"
+        value: << pipeline.git.branch >>
+    jobs:
+      - try-matches
