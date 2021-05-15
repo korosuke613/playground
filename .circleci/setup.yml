@@ -81,8 +81,8 @@ jobs:
             matches:
               pattern: "^main$"
               value: << pipeline.git.branch >>
-        steps:
-          - run: "echo Hello matches with step"
+          steps:
+            - run: "echo Hello matches with step"
       - run: "Done!!"
 
 workflows:
