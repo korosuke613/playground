@@ -76,6 +76,12 @@ jobs:
       image: ubuntu-2004:202010-01
     steps:
       - run: "echo Hello mathces!"
+      - when:
+          matches:
+            pattern: "^main$"
+            value: << pipeline.git.branch >>
+        run: "echo Hello matches with step"
+      - run: "Done!!"
 
 workflows:
   version: 2
