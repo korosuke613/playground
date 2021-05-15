@@ -5,10 +5,11 @@ setup: true
 orbs:
   path-filtering: circleci/path-filtering@0.0.2
 
+
 workflows:
   setup-workflow:
     jobs:
       - path-filtering/filter:
-          config-path: .circleci/go.yml
+          config-path: .circleci/setup.yml
           mapping: |
             go/helloworld/.* go-helloworld true

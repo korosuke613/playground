@@ -71,6 +71,20 @@ jobs:
           command: |
             golangci-lint run -v
 
+  try-matches:
+    machine:
+      image: ubuntu-2004:202010-01
+    steps:
+      - run: "echo Hello mathces!"
+      - when:
+          condition:
+            matches:
+              pattern: "^main$"
+              value: << pipeline.git.branch >>
+          steps:
+            - run: "echo Hello matches with step"
+      - run: "echo Done!!"
+
 workflows:
   version: 2
 
@@ -86,3 +100,11 @@ workflows:
       - go-helloworld-build
       - go-helloworld-test
       - go-helloworld-lint
+
+  try-matches:
+    when:
+      matches:
+        pattern: "^try-matches$"
+        value: << pipeline.git.branch >>
+    jobs:
+      - try-matches
