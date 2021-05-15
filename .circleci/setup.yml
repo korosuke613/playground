@@ -77,10 +77,12 @@ jobs:
     steps:
       - run: "echo Hello mathces!"
       - when:
-          matches:
-            pattern: "^main$"
-            value: << pipeline.git.branch >>
-        run: "echo Hello matches with step"
+          condition:
+            matches:
+              pattern: "^main$"
+              value: << pipeline.git.branch >>
+        steps:
+          - run: "echo Hello matches with step"
       - run: "Done!!"
 
 workflows:
