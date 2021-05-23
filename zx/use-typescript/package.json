@@ -2,11 +2,12 @@
   "type": "module",
   "scripts": {
     "checkDirtyWorkingTreeForGit": "node --loader ts-node/esm checkDirtyWorkingTreeForGit.ts",
-    "ojichat": "node --loader ts-node/esm ojichatToCowsay.ts"
+    "ojichat": "node --loader ts-node/esm ojichatToCowsay.ts",
+    "awsSts": "node --loader ts-node/esm awsSts.ts"
   },
   "dependencies": {
     "cowsay": "^1.4.0",
-    "zx": "^1.2.2"
+    "zx": "^1.10.1"
   },
   "devDependencies": {
     "ts-node": "^9.1.1"
