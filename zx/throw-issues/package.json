@@ -1,7 +1,7 @@
 {
   "type": "module",
   "dependencies": {
-    "zx": "^1.10.1"
+    "zx": "^1.11.0"
   },
   "devDependencies": {
     "ts-node": "^9.1.1"
