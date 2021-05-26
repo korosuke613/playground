@@ -1,3 +1,3 @@
 import "zx"
-cd()
+import {$} from "zx"
 await $`echo Hello!`

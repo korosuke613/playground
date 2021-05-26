@@ -1,9 +1,9 @@
 {
   "type": "module",
-  "dependencies": {
-    "zx": "^1.11.0"
-  },
   "devDependencies": {
     "ts-node": "^9.1.1"
+  },
+  "dependencies": {
+    "zx": "file:../../../../google/zx/zx-1.12.0.tgz"
   }
 }
