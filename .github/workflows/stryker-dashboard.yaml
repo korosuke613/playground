@@ -3,6 +3,7 @@ name: Stryker Dashboard
 on:
   pull_request:
     paths:
+      - .github/workflows/stryker-dashboard.yaml
       - javascript/strykerjs/**
 
 defaults:
@@ -15,6 +16,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: npm ci
-      - run: npm run test:mutation
+      - name: Upload mutation result
         env:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
+        run: npm run test:mutation
+      - name: Create commit status
+        if: ${{ always() }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pull_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          dashboard_url="https://dashboard.stryker-mutator.io/reports/github.com/${{ github.repository }}/PR-${pull_number}"
+          jq -n "{\"state\": \"success\", \"context\": \"Stryker Dashboard\", \"description\": \"${dashboard_url}\", \"target_url\": \"${dashboard_url}\"}" \
+          | gh api /repos/:owner/:repo/statuses/${{ github.event.pull_request.head.sha }} --input -
+
