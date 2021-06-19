@@ -1,0 +1,19 @@
+name: Stryker Dashboard
+
+on:
+  pull_request:
+    paths:
+      - javascript/strykerjs/**
+
+defaults:
+  run:
+    working-directory: javascript/strykerjs
+
+jobs:
+  mutation-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm ci
+      - run: npm run test:mutation
+
