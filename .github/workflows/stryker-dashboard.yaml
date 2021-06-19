@@ -5,6 +5,12 @@ on:
     paths:
       - .github/workflows/stryker-dashboard.yaml
       - javascript/strykerjs/**
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/stryker-dashboard.yaml
+      - javascript/strykerjs/**
 
 defaults:
   run:
@@ -20,8 +26,8 @@ jobs:
         env:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         run: npm run test:mutation
-      - name: Create commit status
-        if: ${{ always() }}
+      - name: Create commit status only pull_request
+        if: ${{ always() && github.event_name == 'pull_request' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
