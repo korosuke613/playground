@@ -2,6 +2,14 @@ use std::io;
 use rand::Rng;
 use std::cmp::Ordering;
 
+/// Get secret number
+///
+/// # Examples
+/// ```
+/// let secret_number = get_secret_number(1, 101);
+/// println!({}, secret_number);
+/// // 52
+/// ```
 fn get_secret_number(low: u32, high: u32) -> u32{
     rand::thread_rng().gen_range(low, high)
 }
