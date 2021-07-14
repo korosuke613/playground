@@ -2,10 +2,23 @@ use std::io;
 use rand::Rng;
 use std::cmp::Ordering;
 
+fn get_secret_number(low: u32, high: u32) -> u32{
+    rand::thread_rng().gen_range(low, high)
+}
+
+/// Guess the number!
+/// 数当てゲーム。
+///
+/// # Examples
+///
+/// ```
+/// main()
+///
+/// ```
 fn main() {
     println!("Guess the number!"); // 数を当ててごらん
 
-    let secret_number = rand::thread_rng().gen_range(1, 101);
+    let secret_number = get_secret_number(1, 101);
 
     loop {
         println!("Please input your guess"); // ほら、予想を入力してね
