@@ -3,9 +3,10 @@ on:
     paths:
       - ".github/workflows/setup-node.yaml"
       - "javascript/mswjs/**"
+      - "javascript/strykerjs"
 
 jobs:
-  using-cache:
+  using-cache-single:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -19,3 +20,27 @@ jobs:
           cache-dependency-path: 'javascript/mswjs'
       - run: npm ci
       - run: npm run test
+        
+  using-cache-multi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'npm'
+          cache-dependency-path: |
+            javascript/mswjs
+            javascript/strykerjs
+      - name: '[mswjs] npm ci'
+        run: npm ci
+        working-directory: "javascript/mswjs"
+      - name: '[mswjs] npm run test'
+        run: npm run test
+        working-directory: "javascript/mswjs"
+      - name: '[strykerjs] npm ci'
+        run: npm ci
+        working-directory: "javascript/strykerjs"
+      - name: '[strykerjs] npm run test:mutation'
+        run: npm run test:mutation
+        working-directory: "javascript/strykerjs"
