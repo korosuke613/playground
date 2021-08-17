@@ -9,21 +9,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: calclate date
+        run: echo '::set-output name=DATE::$(date '+%Y-%m-%dT%H:%M:%S%z')'
+        id: date-generator
       - name: Update diagram
         uses: githubocto/repo-visualizer@0.5.0
         with:
           output_file: "repo-diagram.svg"
-      - name: commit and push
-        run: |
-          git status --porcelain
-          [[ -z $(git status --porcelain) ]] && exit 0; true
-
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-
-          export NOW_DATE_TIME=$(date '+%Y-%m-%dT%H:%M:%S%z')
-
-          git add repo-diagram.svg
-          git commit -m "Updated most used languages ($NOW_DATE_TIME)"
-          git pull
-          git push origin "${GITHUB_REF##*/}"
+          commit_message: "Repo visualizer: updated diagram ${{ steps.date-generator.outputs.DATE }} [skip ci]"
+      # 自動コミットされる
+      # Add option to not commit · Issue #16 · githubocto/repo-visualizer
+      # https://github.com/githubocto/repo-visualizer/issues/16
+#      - name: commit and push
+#        run: |
+#          git status --porcelain
+#          [[ -z $(git status --porcelain) ]] && exit 0; true
+#
+#          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+#          git config --local user.name "github-actions[bot]"
+#
+#          export NOW_DATE_TIME=$(date '+%Y-%m-%dT%H:%M:%S%z')
+#
+#          git add repo-diagram.svg
+#          git commit -m "Updated most used languages ($NOW_DATE_TIME)"
+#          git pull
+#          git push origin "${GITHUB_REF##*/}"
