@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: calclate date
-        run: echo '::set-output name=DATE::$(date '+%Y-%m-%dT%H:%M:%S%z')'
+        run: echo "::set-output name=DATE::$(date '+%Y-%m-%dT%H:%M:%S%z')"
         id: date-generator
       - name: Update diagram
         uses: githubocto/repo-visualizer@0.5.0
