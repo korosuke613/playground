@@ -1,4 +1,4 @@
-# syntax=docker.io/docker/dockerfile:1.3.0
+# syntax=docker.io/docker/dockerfile:1.3-labs
 
 FROM ubuntu
 
