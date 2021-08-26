@@ -1,0 +1,18 @@
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/actions/setup-go-with-cache/**'
+      - '.github/workflows/using-local-action.yaml'
+
+jobs:
+  uses-in-composite-action:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/setup-go-with-cache
+        with:
+          go-version: 1.16
+      - run: go test ./... -v -cover
+        working-directory: go/helloworld
