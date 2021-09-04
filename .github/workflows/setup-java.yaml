@@ -1,0 +1,21 @@
+on:
+  push:
+    paths:
+      - ".github/workflows/setup-java.yaml"
+      - "java/gradle/**"
+
+jobs:
+  using-cache:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "java/gradle"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          cache: 'gradle'
+      - run: gradle test
+
