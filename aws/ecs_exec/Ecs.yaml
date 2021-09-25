@@ -1,0 +1,62 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "IAM for ECS Exec"
+
+Resources:
+  Role:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: EcsExec
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: "ecs-tasks.amazonaws.com"
+            Action: "sts:AssumeRole"
+
+  Policy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: EcsExec
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action:
+              - "ssmmessages:CreateControlChannel"
+              - "ssmmessages:CreateDataChannel"
+              - "ssmmessages:OpenControlChannel"
+              - "ssmmessages:OpenDataChannel"
+            Resource: "*"
+      Roles:
+        - !Ref Role
+#
+#  EcsTask:
+#    Type: AWS::ECS::TaskDefinition
+#    Properties:
+#      TaskRoleArn: !Ref Role
+#      NetworkMode: awsvpc
+#      Cpu: "256"
+#      Memory: "512"
+#      RequiresCompatibilities:
+#        - FARGATE
+#      ContainerDefinitions:
+#        - Image: public.ecr.aws/ubuntu/nginx:latest
+#          Name: nginx
+#
+#  EcsService:
+#    Type: AWS::ECS::Service
+#    Properties:
+#      EnableExecuteCommand: true
+#      TaskDefinition: !Ref EcsTask
+#      Cluster: !Ref EcsCluster
+#      LaunchType: FARGATE
+#      NetworkConfiguration:
+#        AwsvpcConfiguration:
+#          Subnets:
+#            - 10.0.0.0/24
+#            - 10.0.1.0/24
+#
+#  EcsCluster:
+#    Type: AWS::ECS::Cluster
+#    Properties:
+#      ClusterName: EcsExec
+#
