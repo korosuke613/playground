@@ -1,0 +1,4 @@
+example*
+plan.json
+plan.out
+!terraform.tfstate
