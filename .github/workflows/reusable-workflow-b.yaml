@@ -1,0 +1,14 @@
+name: Reusable workflow example
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/reusable-workflow-b.yaml"
+
+jobs:
+  call-workflow-1:
+    uses: korosuke613/playground/.github/workflows/reusable-workflow-a.yaml@27ad24a5813db425f3c0b34ed346aa2bc4d6ae0d
+    with:
+      username: korosuke613
+    secrets:
+      token: "this is token"
