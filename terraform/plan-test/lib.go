@@ -8,6 +8,7 @@ import (
 	"regexp"
 )
 
+// getActionType Get the action type of tfjson.Actions
 func getActionType(actions *tfjson.Actions) string {
 	switch {
 	case actions.NoOp():
