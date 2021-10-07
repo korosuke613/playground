@@ -7,7 +7,7 @@ on:
 
 jobs:
   call-workflow-1:
-    uses: korosuke613/playground/.github/workflows/reusable-workflow-a.yaml@27ad24a5813db425f3c0b34ed346aa2bc4d6ae0d
+    uses: korosuke613/playground/.github/workflows/reusable-workflow-a.yaml@reuse-workflow-v1
     with:
       username: korosuke613
     secrets:
