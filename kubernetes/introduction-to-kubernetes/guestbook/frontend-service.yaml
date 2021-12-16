@@ -8,8 +8,8 @@ metadata:
     app: guestbook
     tier: frontend
   annotations:
-    # https://okteto.com/docs/cloud/ssl/
-    dev.okteto.com/auto-ingress: "true"
+    # https://okteto.com/docs/cloud/private-endpoints/
+    dev.okteto.com/auto-ingress: "private"
 spec:
   # if your cluster supports it, uncomment the following to automatically create
   # an external load-balanced IP for the frontend service.
