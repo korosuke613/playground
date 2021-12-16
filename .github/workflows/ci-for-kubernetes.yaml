@@ -1,0 +1,18 @@
+name: CI for Kubernetes
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/lint-kubeernetes.yaml'
+      - 'kubernetes/**'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: instrumenta/kubeval-action@5915e4adba5adccac07cb156b82e54c3fed74921
+        with:
+          files: ./kubernetes
