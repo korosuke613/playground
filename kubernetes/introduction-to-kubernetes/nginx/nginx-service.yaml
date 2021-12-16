@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-first-service
+  annotations:
+    # https://okteto.com/docs/cloud/ssl/
+    dev.okteto.com/auto-ingress: "true"
+spec:
+  selector:
+    component: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
