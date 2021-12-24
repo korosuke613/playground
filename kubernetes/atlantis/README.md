@@ -11,6 +11,13 @@ secret/atlantis-vcs created
 ```
 
 ```console
+❯ kubectl create secret generic atlantis-basic \
+    --from-literal=username="${ATLANTIS_WEB_USERNAME}" \
+    --from-literal=password="${ATLANTIS_WEB_PASSWORD}"
+secret/atlantis-basic created
+```
+
+```console
 ❯ kubectl apply -f service.yaml -f statefulset.yaml
 service/atlantis created
 statefulset.apps/atlantis created

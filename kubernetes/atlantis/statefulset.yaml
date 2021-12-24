@@ -41,6 +41,19 @@ spec:
                   key: webhook-secret
             ### End GitHub Config ###
 
+            - name: ATLANTIS_WEB_BASIC_AUTH
+              value: "true"
+            - name: ATLANTIS_WEB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: atlantis-basic
+                  key: username
+            - name: ATLANTIS_WEB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: atlantis-basic
+                  key: password
+
             - name: ATLANTIS_DATA_DIR
               value: /atlantis
             - name: ATLANTIS_PORT
