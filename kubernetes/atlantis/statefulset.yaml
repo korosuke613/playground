@@ -21,14 +21,14 @@ spec:
         fsGroup: 1000 # Atlantis group (1000) read/write access to volumes.
       containers:
         - name: atlantis
-          image: runatlantis/atlantis:v<VERSION> # 1. Replace <VERSION> with the most recent release.
+          image: runatlantis/atlantis:v0.17.6 # 1. Replace <VERSION> with the most recent release.
           env:
             - name: ATLANTIS_REPO_ALLOWLIST
-              value: github.com/yourorg/* # 2. Replace this with your own repo allowlist.
+              value: github.com/korosuke613/* # 2. Replace this with your own repo allowlist.
 
             ### GitHub Config ###
             - name: ATLANTIS_GH_USER
-              value: <YOUR_GITHUB_USER> # 3i. If you're using GitHub replace <YOUR_GITHUB_USER> with the username of your Atlantis GitHub user without the `@`.
+              value: korosuke613 # 3i. If you're using GitHub replace <YOUR_GITHUB_USER> with the username of your Atlantis GitHub user without the `@`.
             - name: ATLANTIS_GH_TOKEN
               valueFrom:
                 secretKeyRef:
@@ -40,51 +40,6 @@ spec:
                   name: atlantis-vcs
                   key: webhook-secret
             ### End GitHub Config ###
-
-            ### GitLab Config ###
-            - name: ATLANTIS_GITLAB_USER
-              value: <YOUR_GITLAB_USER> # 4i. If you're using GitLab replace <YOUR_GITLAB_USER> with the username of your Atlantis GitLab user without the `@`.
-            - name: ATLANTIS_GITLAB_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: atlantis-vcs
-                  key: token
-            - name: ATLANTIS_GITLAB_WEBHOOK_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: atlantis-vcs
-                  key: webhook-secret
-            ### End GitLab Config ###
-
-            ### Bitbucket Config ###
-            - name: ATLANTIS_BITBUCKET_USER
-              value: <YOUR_BITBUCKET_USER> # 5i. If you're using Bitbucket replace <YOUR_BITBUCKET_USER> with the username of your Atlantis Bitbucket user without the `@`.
-            - name: ATLANTIS_BITBUCKET_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: atlantis-vcs
-                  key: token
-            ### End Bitbucket Config ###
-
-            ### Azure DevOps Config ###
-            - name: ATLANTIS_AZUREDEVOPS_USER
-              value: <YOUR_AZUREDEVOPS_USER> # 6i. If you're using Azure DevOps replace <YOUR_AZUREDEVOPS_USER> with the username of your Atlantis Azure DevOps user without the `@`.
-            - name: ATLANTIS_AZUREDEVOPS_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: atlantis-vcs
-                  key: token
-            - name: ATLANTIS_AZUREDEVOPS_WEBHOOK_USER
-              valueFrom:
-                secretKeyRef:
-                  name: atlantis-vcs
-                  key: basic-user
-            - name: ATLANTIS_AZUREDEVOPS_WEBHOOK_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: atlantis-vcs
-                  key: basic-password
-            ### End Azure DevOps Config ###
 
             - name: ATLANTIS_DATA_DIR
               value: /atlantis
