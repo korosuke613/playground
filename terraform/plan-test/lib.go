@@ -70,17 +70,27 @@ func getActions(resourceChanges map[string]*tfjson.ResourceChange) map[string][]
 	return actions
 }
 
+func searchAction(resourceChanges map[string]*tfjson.ResourceChange, actionType tfjson.Action) []string {
+	// 特定のActionがあるかどうか
+	actions := getActions(resourceChanges)
+
+	if _, ok := actions[string(actionType)]; ok {
+		return actions[string(actionType)]
+	}
+	return nil
+}
+
 func searchResourceType(resourceChanges map[string]*tfjson.ResourceChange, resourceType string) (map[string][]tfjson.ResourceChange, map[string][]tfjson.ResourceChange) {
 	foundTypes := map[string][]tfjson.ResourceChange{}
 	withoutTypes := map[string][]tfjson.ResourceChange{}
 
-	for _, resource := range resourceChanges{
+	for _, resource := range resourceChanges {
 		if resource.Change.Actions.NoOp() {
 			continue
 		}
-		if regexp.MustCompile(resourceType).Match([]byte(resource.Type)){
+		if regexp.MustCompile(resourceType).Match([]byte(resource.Type)) {
 			foundTypes[resource.Type] = append(foundTypes[resourceType], *resource)
-		}else {
+		} else {
 			withoutTypes[resource.Type] = append(withoutTypes[resourceType], *resource)
 		}
 	}
@@ -91,13 +101,13 @@ func searchResourceModule(resourceChanges map[string]*tfjson.ResourceChange, res
 	foundModule := map[string][]tfjson.ResourceChange{}
 	withoutModule := map[string][]tfjson.ResourceChange{}
 
-	for _, resource := range resourceChanges{
+	for _, resource := range resourceChanges {
 		if resource.Change.Actions.NoOp() {
 			continue
 		}
-		if regexp.MustCompile(resourceModule).Match([]byte(resource.ModuleAddress)){
+		if regexp.MustCompile(resourceModule).Match([]byte(resource.ModuleAddress)) {
 			foundModule[resource.Type] = append(foundModule[resourceModule], *resource)
-		}else {
+		} else {
 			withoutModule[resource.Type] = append(withoutModule[resourceModule], *resource)
 		}
 	}

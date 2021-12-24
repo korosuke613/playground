@@ -17,15 +17,11 @@ func TestTerraformPlan(t *testing.T) {
 
 	resourceChanges := getResourceChanges(plan)
 
-	actions := getActions(resourceChanges)
 
 	// 特定のActionがあるかどうか
-	for _, actionType := range []string{
-		string(tfjson.ActionDelete),
-	} {
-		if _, ok := actions[actionType]; ok {
-			assert.Fail(t, fmt.Errorf("found resource to %v. %v", actionType, actions[actionType]).Error())
-		}
+	createResources := searchAction(resourceChanges, tfjson.ActionCreate)
+	if createResources != nil{
+		assert.Fail(t, fmt.Errorf("found resource to %v. %v", tfjson.ActionCreate, createResources).Error())
 	}
 
 	// 特定のTypeがあるかどうか
