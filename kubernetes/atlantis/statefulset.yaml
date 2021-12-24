@@ -1,0 +1,131 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: atlantis
+spec:
+  serviceName: atlantis
+  replicas: 1
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      partition: 0
+  selector:
+    matchLabels:
+      app: atlantis
+  template:
+    metadata:
+      labels:
+        app: atlantis
+    spec:
+      securityContext:
+        fsGroup: 1000 # Atlantis group (1000) read/write access to volumes.
+      containers:
+        - name: atlantis
+          image: runatlantis/atlantis:v<VERSION> # 1. Replace <VERSION> with the most recent release.
+          env:
+            - name: ATLANTIS_REPO_ALLOWLIST
+              value: github.com/yourorg/* # 2. Replace this with your own repo allowlist.
+
+            ### GitHub Config ###
+            - name: ATLANTIS_GH_USER
+              value: <YOUR_GITHUB_USER> # 3i. If you're using GitHub replace <YOUR_GITHUB_USER> with the username of your Atlantis GitHub user without the `@`.
+            - name: ATLANTIS_GH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: atlantis-vcs
+                  key: token
+            - name: ATLANTIS_GH_WEBHOOK_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: atlantis-vcs
+                  key: webhook-secret
+            ### End GitHub Config ###
+
+            ### GitLab Config ###
+            - name: ATLANTIS_GITLAB_USER
+              value: <YOUR_GITLAB_USER> # 4i. If you're using GitLab replace <YOUR_GITLAB_USER> with the username of your Atlantis GitLab user without the `@`.
+            - name: ATLANTIS_GITLAB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: atlantis-vcs
+                  key: token
+            - name: ATLANTIS_GITLAB_WEBHOOK_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: atlantis-vcs
+                  key: webhook-secret
+            ### End GitLab Config ###
+
+            ### Bitbucket Config ###
+            - name: ATLANTIS_BITBUCKET_USER
+              value: <YOUR_BITBUCKET_USER> # 5i. If you're using Bitbucket replace <YOUR_BITBUCKET_USER> with the username of your Atlantis Bitbucket user without the `@`.
+            - name: ATLANTIS_BITBUCKET_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: atlantis-vcs
+                  key: token
+            ### End Bitbucket Config ###
+
+            ### Azure DevOps Config ###
+            - name: ATLANTIS_AZUREDEVOPS_USER
+              value: <YOUR_AZUREDEVOPS_USER> # 6i. If you're using Azure DevOps replace <YOUR_AZUREDEVOPS_USER> with the username of your Atlantis Azure DevOps user without the `@`.
+            - name: ATLANTIS_AZUREDEVOPS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: atlantis-vcs
+                  key: token
+            - name: ATLANTIS_AZUREDEVOPS_WEBHOOK_USER
+              valueFrom:
+                secretKeyRef:
+                  name: atlantis-vcs
+                  key: basic-user
+            - name: ATLANTIS_AZUREDEVOPS_WEBHOOK_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: atlantis-vcs
+                  key: basic-password
+            ### End Azure DevOps Config ###
+
+            - name: ATLANTIS_DATA_DIR
+              value: /atlantis
+            - name: ATLANTIS_PORT
+              value: "4141" # Kubernetes sets an ATLANTIS_PORT variable so we need to override.
+          volumeMounts:
+            - name: atlantis-data
+              mountPath: /atlantis
+          ports:
+            - name: atlantis
+              containerPort: 4141
+          resources:
+            requests:
+              memory: 256Mi
+              cpu: 100m
+            limits:
+              memory: 256Mi
+              cpu: 100m
+          livenessProbe:
+            # We only need to check every 60s since Atlantis is not a
+            # high-throughput service.
+            periodSeconds: 60
+            httpGet:
+              path: /healthz
+              port: 4141
+              # If using https, change this to HTTPS
+              scheme: HTTP
+          readinessProbe:
+            periodSeconds: 60
+            httpGet:
+              path: /healthz
+              port: 4141
+              # If using https, change this to HTTPS
+              scheme: HTTP
+  volumeClaimTemplates:
+    - metadata:
+        name: atlantis-data
+      spec:
+        accessModes: ["ReadWriteOnce"] # Volume should not be shared by multiple nodes.
+        resources:
+          requests:
+            # The biggest thing Atlantis stores is the Git repo when it checks it out.
+            # It deletes the repo after the pull request is merged.
+            storage: 5Gi
