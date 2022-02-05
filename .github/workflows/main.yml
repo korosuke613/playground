@@ -1,0 +1,16 @@
+name: In Docker Container
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: 
+      image: node
+    steps: 
+      - name: Log node version
+        run: |
+          node -v #nodeバージョンの確認
+          cat /etc/os-release #Linuxバージョンの確認
+    
