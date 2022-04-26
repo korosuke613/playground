@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/korosuke613/playground/go/helloworld/libs"
 	"os"
 )
@@ -15,4 +16,6 @@ func main() {
 		os.Exit(1)
 	}
 	fmt.Println(say)
+
+	terraform.NewInstanceDiff()
 }
