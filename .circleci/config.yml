@@ -3,7 +3,7 @@ version: 2.1
 setup: true
 
 orbs:
-  path-filtering: circleci/path-filtering@0.0.2
+  path-filtering: circleci/path-filtering@0.1.2
 
 
 workflows:
@@ -12,4 +12,30 @@ workflows:
       - path-filtering/filter:
           config-path: .circleci/setup.yml
           mapping: |
-            go/helloworld/.* go-helloworld true
+            go/helloworld/* hitting-go-helloworld true
+            .circleci/go-helloworld.yml hitting-go-helloworld true
+            javascript/mswjs/* hitting-node-mswjs true
+            .circleci/setup.yml hitting-node-mswjs true
+
+  try-matches:
+    when:
+      matches:
+        pattern: "^try-matches$"
+        value: << pipeline.git.branch >>
+    jobs:
+      - try-matches
+
+jobs:
+  try-matches:
+    machine:
+      image: ubuntu-2004:202010-01
+    steps:
+      - run: "echo Hello mathces!"
+      - when:
+          condition:
+            matches:
+              pattern: "^main$"
+              value: << pipeline.git.branch >>
+          steps:
+            - run: "echo Hello matches with step"
+      - run: "echo Done!!"

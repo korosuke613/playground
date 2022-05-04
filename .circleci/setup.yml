@@ -2,12 +2,17 @@
 version: 2.1
 
 parameters:
-  go-helloworld:
+  hitting-go-helloworld:
+    type: boolean
+    default: false
+  hitting-node-mswjs:
     type: boolean
     default: false
 
+
 orbs:
   go: circleci/go@1.6.0
+  node: circleci/node@5.0.2
 
 commands:
   go-setup:
@@ -18,12 +23,6 @@ commands:
       - go/save-cache
 
 jobs:
-  pass:
-    machine:
-      image: ubuntu-2004:202101-01
-    steps:
-      - run: echo "This job is nothing to do. Because without the job, the workflow will fail."
-
   go-helloworld-build:
     working_directory: ~/repo/go/helloworld
     executor:
@@ -71,40 +70,46 @@ jobs:
           command: |
             golangci-lint run -v
 
-  try-matches:
-    machine:
-      image: ubuntu-2004:202010-01
+  node-mswjs-test:
+    working_directory: ~/repo/javascript/mswjs
+    docker:
+      - image: cimg/node:16.15.0
+    parallelism: 2
     steps:
-      - run: "echo Hello mathces!"
-      - when:
-          condition:
-            matches:
-              pattern: "^main$"
-              value: << pipeline.git.branch >>
-          steps:
-            - run: "echo Hello matches with step"
-      - run: "echo Done!!"
+      - checkout:
+          path: ~/repo
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          command: |
+            TESTFILES=$(circleci tests glob "src/__tests__/**/*.test.ts" | circleci tests split --split-by=timings)
+            npx jest --ci --runInBand $TESTFILES --reporters=default --reporters=jest-junit
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
+      - store_test_results:
+          path: ./reports/junit/
+
+  pass:
+    machine:
+      image: ubuntu-2004:202101-01
+    steps:
+      - run: echo "This job is nothing to do. Because without the job, the workflow will fail."
+
 
 workflows:
   version: 2
 
-  pass:
-    when:
-      not: << pipeline.parameters.go-helloworld >>
-    jobs:
-      - pass
-
   go-helloworld:
-    when: << pipeline.parameters.go-helloworld >>
+    when: << pipeline.parameters.hitting-go-helloworld >>
     jobs:
       - go-helloworld-build
       - go-helloworld-test
       - go-helloworld-lint
-
-  try-matches:
-    when:
-      matches:
-        pattern: "^try-matches$"
-        value: << pipeline.git.branch >>
+  node-mswjs:
+    when: << pipeline.parameters.hitting-node-mswjs >>
     jobs:
-      - try-matches
+      - node-mswjs-test
+
+  always:
+    jobs:
+      - pass
