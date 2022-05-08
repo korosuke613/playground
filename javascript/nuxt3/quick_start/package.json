@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "lint": "run-p lint:*",
+    "lint:eslint": "eslint --ext .ts,vue --ignore-path .gitignore .",
+    "lint:stylelint": "stylelint --ignore-path .gitignore \"**/*.{css,scss,vue}\"",
+    "fix": "run-p fix:*",
+    "fix:eslint": "run-s \"lint:eslint -- --fix\"",
+    "fix:stylelint": "run-s \"lint:stylelint -- --fix\""
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.22.0",
+    "@typescript-eslint/parser": "^5.22.0",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "@vue/eslint-config-typescript": "^10.0.0",
+    "eslint": "^8.15.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^8.7.1",
+    "npm-run-all": "^4.1.5",
+    "nuxt": "3.0.0-rc.1",
+    "postcss-html": "^1.4.1",
+    "prettier": "^2.6.2",
+    "stylelint": "^14.8.2",
+    "stylelint-config-recommended": "^7.0.0",
+    "stylelint-config-recommended-vue": "^1.4.0",
+    "stylelint-config-standard": "^25.0.0"
+  }
+}
