@@ -1,10 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview",
     "lint": "run-p lint:*",
     "lint:eslint": "eslint --ext .ts,vue --ignore-path .gitignore .",
     "lint:stylelint": "stylelint --ignore-path .gitignore \"**/*.{css,scss,vue}\"",

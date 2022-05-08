@@ -1,4 +1,4 @@
-# Nuxt 3 Minimal Starter
+# Nuxt 3 Quick Start
 
 Look at the [nuxt 3 documentation](https://v3.nuxtjs.org) to learn more.
 
@@ -8,13 +8,7 @@ Make sure to install the dependencies:
 
 ```bash
 # yarn
-yarn install
-
-# npm
 npm install
-
-# pnpm
-pnpm install --shamefully-hoist
 ```
 
 ## Development Server
@@ -27,16 +21,11 @@ npm run dev
 
 ## Production
 
-Build the application for production:
+Generate the static site for production:
 
 ```bash
-npm run build
+npm run generate
 ```
 
-Locally preview production build:
-
-```bash
-npm run preview
-```
 
 Checkout the [deployment documentation](https://v3.nuxtjs.org/docs/deployment) for more information.
