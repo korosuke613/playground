@@ -1,0 +1,25 @@
+name: CI for Nuxt 3 Quick Start
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/ci-for-nuxt3-quickstart.yaml'
+      - 'javascript/nuxt3/quick_start/**'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "javascript/nuxt3/quick_start"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'npm'
+          cache-dependency-path: 'javascript/nuxt3/quick_start'
+      - run: npm ci
+      - run: npm run lint
