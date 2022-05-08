@@ -1,7 +1,7 @@
 <template>
   <div>
     <NuxtLogo />
-    <h1>Welcome to Nuxt</h1>
+    <h1>HelloWorld!</h1>
   </div>
 </template>
 
@@ -9,5 +9,4 @@
 body {
   margin: 0;
 }
-
 </style>

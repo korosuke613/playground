@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <!--    <NuxtWelcome />-->
-    <Welcome />
+    <HelloWorld />
     <NuxtLink to="nuxt_welcome" class="link n-link-base">
       NuxtWelcome
     </NuxtLink>
