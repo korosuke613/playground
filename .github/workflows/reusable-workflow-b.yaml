@@ -4,8 +4,6 @@ on:
   pull_request:
     paths:
       - ".github/workflows/reusable-workflow-b.yaml"
-  schedule:
-    - cron: "*/10 * * * *"
 
 jobs:
   call-workflow-1:
