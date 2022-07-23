@@ -1,0 +1,2 @@
+[default]
+credential_process = cat /aws_credentials.json

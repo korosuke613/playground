@@ -1,0 +1,6 @@
+aws_signing_helper
+vault
+ca.pem
+cert.pem
+private.key
+aws_credentials.json
