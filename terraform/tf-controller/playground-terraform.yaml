@@ -1,0 +1,14 @@
+apiVersion: infra.contrib.fluxcd.io/v1alpha1
+kind: Terraform
+metadata:
+  name: playground-3
+  namespace: flux-system
+spec:
+  interval: 1m
+  # approvePlan: "auto"
+  path: ./terraform/plan-test
+  sourceRef:
+    kind: GitRepository
+    name: playground
+    namespace: flux-system
+
