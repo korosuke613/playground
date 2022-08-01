@@ -1,0 +1,8 @@
+workflows:
+  say-hello-workflow2:
+    jobs:
+      - say-hello
+      - say-hello2:
+          requires:
+            - say-hello
+

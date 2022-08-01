@@ -1,0 +1,20 @@
+jobs:
+  say-hello3:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "Say hello3"
+          command: "echo Hello, World3!"
+
+workflows:
+  say-hello-workflow3:
+    jobs:
+      - say-hello
+      - say-hello2:
+          requires:
+            - say-hello
+      - say-hello3:
+          requires:
+            - say-hello

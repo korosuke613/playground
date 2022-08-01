@@ -1,0 +1,10 @@
+jobs:
+  say-hello2:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "Say hello2"
+          command: "echo Hello, World2!"
+
