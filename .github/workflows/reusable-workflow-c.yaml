@@ -1,0 +1,19 @@
+name: Reusable workflow example call reusable workflow
+
+on:
+  workflow_call:
+    inputs:
+      username:
+        required: true
+        type: string
+    secrets:
+      token:
+        required: true
+
+jobs:
+  call-workflow-a:
+    uses: ./.github/workflows/reusable-workflow-a.yaml
+    with:
+      username: ${{ inputs.username }}
+    secrets:
+      token: ${{ secrets.token }}

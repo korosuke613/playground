@@ -1,0 +1,20 @@
+name: Reusable workflow example
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/reusable-workflow-d.yaml"
+
+
+jobs:
+  call-workflow-c:
+    strategy:
+      matrix:
+        username:
+          - korosuke613
+          - futa
+    uses: ./.github/workflows/reusable-workflow-c.yaml
+    with:
+      username: ${{ matrix.username }}
+    secrets:
+      token: "this is token"
