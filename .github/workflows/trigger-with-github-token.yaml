@@ -17,6 +17,6 @@ jobs:
             github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              workflow_id: 'main.yml',
-              ref: 'main',
+              workflow_id: 'trigger-with-github-token.yml',
+              ref: 'test-recursive-dispatch',
             })
