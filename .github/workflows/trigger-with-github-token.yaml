@@ -1,0 +1,22 @@
+name: Trigger another workflow with GITHUB_TOKEN
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - .github/workflows/trigger-with-github-token.yaml
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Workflow
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'main.yml',
+              ref: 'main',
+            })
