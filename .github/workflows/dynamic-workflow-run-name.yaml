@@ -1,0 +1,14 @@
+name: Dynamic names for workflow runs
+run-name: Execute by ${{ github.event_name }} by @${{ github.actor }}
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/dynamic-workflow-run-name.yaml
+  workflow_dispatch:
+
+jobs:
+  echo:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo hello world
