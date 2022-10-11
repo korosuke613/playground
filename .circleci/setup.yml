@@ -89,6 +89,15 @@ jobs:
       - store_test_results:
           path: ./reports/junit/
 
+  try-container-agent:
+    docker:
+      - image: cimg/base:current
+    resource_class: korosuke613/gke-autopilot
+    steps:
+      - checkout
+      - run: echo "hello world"
+
+
   pass:
     machine:
       image: ubuntu-2004:202101-01
@@ -113,3 +122,11 @@ workflows:
   always:
     jobs:
       - pass
+
+  try-container-agent:
+    when:
+      matches:
+        pattern: "^try-container-agent$"
+        value: << pipeline.git.branch >>
+    jobs:
+      - try-container-agent
