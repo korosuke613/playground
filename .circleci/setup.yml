@@ -126,7 +126,7 @@ workflows:
   try-container-agent:
     when:
       matches:
-        pattern: "^try-container-agent$"
+        pattern: "^try-okteto-circleci$"
         value: << pipeline.git.branch >>
     jobs:
       - try-container-agent
