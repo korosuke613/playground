@@ -92,7 +92,7 @@ jobs:
   try-container-agent:
     docker:
       - image: cimg/base:current
-    resource_class: korosuke613/gke-autopilot
+    resource_class: korosuke613/okteto
     steps:
       - checkout
       - run: echo "hello world"
