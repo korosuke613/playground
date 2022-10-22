@@ -1,0 +1,14 @@
+version: "1.1"
+name: Status Check
+env:
+  host: host.docker.internal
+  port: 8080
+tests:
+  example:
+    steps:
+      - name: GET request
+        http:
+          url: http://{{env.host}}:{{env.port}}
+          method: GET
+          check:
+            status: /^20/
