@@ -2,7 +2,7 @@ name: In Docker Container
 
 on:
   workflow_dispatch:
-  push
+  push:
 
 jobs:
   build:
