@@ -13,4 +13,5 @@ jobs:
         run: |
           node -v #nodeバージョンの確認
           cat /etc/os-release #Linuxバージョンの確認
+          exit 1
     
