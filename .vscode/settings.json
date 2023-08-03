@@ -1,5 +1,6 @@
 {
     "python.analysis.extraPaths": [
         ".venv"
-    ]
+    ],
+    "editor.tabSize": 2
 }
