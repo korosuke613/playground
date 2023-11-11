@@ -1,0 +1,23 @@
+version: '3'
+services:
+  # Jaeger
+  jaeger:
+    image: jaegertracing/all-in-one:1
+    ports:
+      - '16686:16686'
+      - '4317'
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.88.0
+    command: ['--config=/etc/otel-collector-config.yaml']
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - '1888:1888' # pprof extension
+      - '13133:13133' # health_check extension
+      - '55679:55679' # zpages extension
+      - '4318:4318' # OTLP HTTP
+      - '4317:4317' # OTLP GRPC
+      - '9123:9123' # Prometheus exporter
+    depends_on:
+      - jaeger

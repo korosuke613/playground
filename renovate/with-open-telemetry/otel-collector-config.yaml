@@ -1,0 +1,43 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+exporters:
+  otlp/jaeger:
+    endpoint: jaeger:4317
+    tls:
+      insecure: true
+  logging:
+  prometheus:
+    endpoint: "0.0.0.0:9123"
+
+processors:
+  batch:
+  spanmetrics:
+    metrics_exporter: prometheus
+    latency_histogram_buckets: [10ms, 100ms, 250ms, 1s, 30s, 1m, 5m]
+    dimensions:
+      - name: http.method
+      - name: http.status_code
+      - name: http.host
+    dimensions_cache_size: 1000
+    aggregation_temporality: "AGGREGATION_TEMPORALITY_CUMULATIVE"
+
+extensions:
+  health_check:
+  pprof:
+  zpages:
+
+service:
+  extensions: [pprof, zpages, health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [otlp/jaeger, logging]
+      processors: [spanmetrics, batch]
+
+    metrics:
+      receivers: [otlp]
+      exporters: [prometheus]
