@@ -1,0 +1,26 @@
+name: writing variables
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/variables.yaml
+
+permissions: write-all
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps: 
+      - uses: actions/checkout@v4
+
+      - name: Read variable
+        run: |
+          gh variable list
+
+      - name: Write variable
+        run: |
+          gh variable set TMP --body $(uuidgen)
