@@ -2,5 +2,10 @@
     "python.analysis.extraPaths": [
         ".venv"
     ],
-    "editor.tabSize": 2
+    "editor.tabSize": 2,
+    "deno.enable": true,
+    "deno.enablePaths": [
+        "./deno/",
+    ],
+    "deno.config": "./deno/deno.json"
 }
