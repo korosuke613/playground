@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sample-kubectl
+  namespace: users
+spec:
+  containers:
+    - name: kubectl-container
+      image: lachlanevenson/k8s-kubectl:latest
+      command: ["sleep", "86400"]
+  serviceAccountName: sample-account
