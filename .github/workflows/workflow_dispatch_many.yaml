@@ -3,17 +3,14 @@ on:
     inputs:
       archive_id:
         type: string
-        description: 'The ID of the archive to download'
         required: true
-      dry-run:
-        type: boolean
-        description: 'Whether to run the workflow without making changes'
-        default: true
       environment:
         type: environment
-        description: 'The environment to deploy to'
         required: true
-
+        default: 'staging'
+      dry-run:
+        type: boolean
+        default: true
 
 jobs:
   echo:
