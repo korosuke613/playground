@@ -18,4 +18,4 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
     steps:
       - name: Echo inputs
-        run: echo "${{ github.event.inputs }}"
+        run: echo "${{ toJson(github.event.inputs) }}" | jq
