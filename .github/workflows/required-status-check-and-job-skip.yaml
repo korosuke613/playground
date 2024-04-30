@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           filter: blob:none
-          fetch-depth: 2 # ファイルの変更を取得するために必要
+          fetch-depth: 0 # ファイルの変更を取得するために必要
       - env:
           TMP_FILE: ${{ runner.temp }}/changed_files.txt
         run: |
