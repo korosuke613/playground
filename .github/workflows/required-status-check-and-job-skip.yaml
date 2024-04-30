@@ -1,8 +1,6 @@
 name: CI
 on:
   pull_request: 
-    paths:
-      - "hoge"
   push:
     branches: [main] # デフォルトブランチでキャッシュを保持するために main ブランチでも実行
 jobs:
@@ -14,16 +12,17 @@ jobs:
       renovate: ${{ steps.changed_files.outputs.renovate_any_changed }}
     steps:
       - uses: actions/checkout@v4
-      - uses: tj-actions/changed-files@v44
-        id: changed_files
         with:
-          files_yaml: |
-            frontend:
-              - frontend/**
-            backend:
-              - backend/**
-            renovate:
-              - renovate.json
+          filter: blob:none
+          fetch-depth: 2 # ファイルの変更を取得するために必要
+      - env:
+          TMP_FILE: ${{ runner.temp }}/changed_files.txt
+        run: |
+          git diff --name-only ${{ github.ref }} > $TMP_FILE
+          grep --quiet '^frontend/' $TMP_FILE && echo "frontend=true" >> $GITHUB_OUTPUT
+          grep --quiet '^backend/' $TMP_FILE && echo "backend=true" >> $GITHUB_OUTPUT
+          grep --quiet '^renovate.json$' $TMP_FILE && echo "renovate=true" >> $GITHUB_OUTPUT
+
   frontend:
     runs-on: ubuntu-latest
     needs: changed_types
