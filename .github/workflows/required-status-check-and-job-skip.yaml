@@ -18,6 +18,7 @@ jobs:
       - env:
           TMP_FILE: ${{ runner.temp }}/changed_files.txt
         run: |
+          git fetch origin main
           git diff --name-only ${{ github.base_ref || 'HEAD^' }} > $TMP_FILE
           grep --quiet '^frontend/' $TMP_FILE && echo "frontend=true" >> $GITHUB_OUTPUT
           grep --quiet '^backend/' $TMP_FILE && echo "backend=true" >> $GITHUB_OUTPUT
