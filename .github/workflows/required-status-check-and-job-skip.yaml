@@ -22,7 +22,7 @@ jobs:
           grep --quiet '^frontend/' $TMP_FILE && echo "frontend=true" >> $GITHUB_OUTPUT
           grep --quiet '^backend/' $TMP_FILE && echo "backend=true" >> $GITHUB_OUTPUT
           grep --quiet '^renovate.json$' $TMP_FILE && echo "renovate=true" >> $GITHUB_OUTPUT
-          # cat $TMP_FILE # ファイルが変更されていない場合にエラーになるのを防ぐ
+          cat $TMP_FILE # ファイルが変更されていない場合にエラーになるのを防ぐ
 
   frontend:
     runs-on: ubuntu-latest
