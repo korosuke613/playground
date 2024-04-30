@@ -1,21 +1,20 @@
 name: CI
 on:
   pull_request: 
-  push:
-    branches: [main] # デフォルトブランチでキャッシュを保持するために main ブランチでも実行
 jobs:
-  changed_types:
+  changed_directory:
     runs-on: ubuntu-latest
     outputs:
-      frontend: ${{ steps.changed_files.outputs.frontend_any_changed }}
-      backend: ${{ steps.changed_files.outputs.backend_any_changed }}
-      renovate: ${{ steps.changed_files.outputs.renovate_any_changed }}
+      frontend: ${{ steps.changed_directory.outputs.frontend }}
+      backend: ${{ steps.changed_directory.outputs.backend }}
+      renovate: ${{ steps.changed_directory.outputs.renovate }}
     steps:
       - uses: actions/checkout@v4
         with:
           filter: blob:none
           fetch-depth: 2 # ファイルの変更を取得するために必要
-      - env:
+      - id: changed_directory
+        env:
           TMP_FILE: ${{ runner.temp }}/changed_files.txt
         run: |
           git diff --name-only HEAD^ > $TMP_FILE
@@ -26,19 +25,19 @@ jobs:
 
   frontend:
     runs-on: ubuntu-latest
-    needs: changed_types
-    if: needs.changed_types.outputs.frontend == 'true'
+    needs: changed_directory
+    if: needs.changed_directory.outputs.frontend == 'true'
     steps:
       - run: echo "Frontend changed."
   backend:
     runs-on: ubuntu-latest
-    needs: changed_types
-    if: needs.changed_types.outputs.backend == 'true'
+    needs: changed_directory
+    if: needs.changed_directory.outputs.backend == 'true'
     steps:
       - run: echo "Backend changed."
   renovate:
     runs-on: ubuntu-latest
-    needs: changed_types
-    if: needs.changed_types.outputs.renovate == 'true'
+    needs: changed_directory
+    if: needs.changed_directory.outputs.renovate == 'true'
     steps:
       - run: echo "Renovate config changed."
