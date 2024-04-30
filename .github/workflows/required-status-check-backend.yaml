@@ -1,0 +1,12 @@
+name: CI Backend
+on:
+  pull_request: 
+    paths:
+      - 'backend/**'
+  push:
+    branches: [main] # デフォルトブランチでキャッシュを保持するために main ブランチでも実行
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Backend changed."

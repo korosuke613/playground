@@ -1,6 +1,8 @@
 name: CI
 on:
   pull_request: 
+    paths:
+      - "hoge"
   push:
     branches: [main] # デフォルトブランチでキャッシュを保持するために main ブランチでも実行
 jobs:
