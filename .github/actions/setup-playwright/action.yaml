@@ -1,0 +1,29 @@
+name: 'Setup Playwright'
+description: 'Setup Playwright with deps and cache'
+inputs:
+  working-directory: 
+    description: 'Working directory'
+    required: false
+    default: ${{ github.workspace }}
+runs:
+  using: "composite"
+  steps:
+    - name: Get Playwright version
+      shell: bash
+      working-directory: ${{ inputs.working-directory || github.workspace }}
+      id: version
+      run: |
+        PLAYWRIGHT_VERSION=$(jq --raw-output '.devDependencies.playwright' package.json)
+        echo "PLAYWRIGHT_VERSION=$PLAYWRIGHT_VERSION" >> $GITHUB_OUTPUT
+
+    - name: Cache Playwright binaries
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ steps.version.outputs.PLAYWRIGHT_VERSION }}
+        restore-keys: playwright-
+
+    - name: Install Playwright with deps
+      shell: bash
+      working-directory: ${{ inputs.working-directory || github.workspace }}
+      run: npx playwright install chromium --with-deps
