@@ -9,13 +9,8 @@ jobs:
         image: nginx
         ports:
           - 8080:80
-    steps:
-      - run: echo "Hello World!"
-      - run: cat /etc/image-id
-      - run: curl http://localhost:8080
-  hello_world_arm:
-    runs-on: codebuild-korosuke613_playground_github_actions_test-${{ github.run_id }}-${{ github.run_attempt }}-arm-3.0-small
     container: ubuntu
     steps:
       - run: echo "Hello World!"
-      - run: cat /etc/image-id
+      - run: cat /etc/os-release 
+      - run: curl http://localhost:8080
