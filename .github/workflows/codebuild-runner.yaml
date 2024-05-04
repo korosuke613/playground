@@ -1,0 +1,14 @@
+on:
+  pull_request:
+
+jobs:
+  hello_world_default:
+    runs-on: codebuild-korosuke613_playground_github_actions_test-${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - run: echo "Hello World!"
+      - run: cat /etc/image-id
+  hello_world_arm:
+    runs-on: codebuild-korosuke613_playground_github_actions_test-${{ github.run_id }}-${{ github.run_attempt }}-arm-3.0-small
+    steps:
+      - run: echo "Hello World!"
+      - run: cat /etc/image-id
