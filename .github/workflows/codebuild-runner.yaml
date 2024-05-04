@@ -13,4 +13,5 @@ jobs:
     steps:
       - run: echo "Hello World!"
       - run: cat /etc/os-release 
+      - run: apt-get update && apt-get install -y curl
       - run: curl http://localhost:8080
