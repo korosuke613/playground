@@ -6,7 +6,7 @@ jobs:
     runs-on: codebuild-korosuke613_playground_github_actions_test-${{ github.run_id }}-${{ github.run_attempt }}
     services:
       nginx:
-        image: nginx
+        image: public.ecr.aws/nginx/nginx:latest
         ports:
           - 8080:80
     container: ubuntu
