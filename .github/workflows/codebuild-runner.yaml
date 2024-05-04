@@ -2,16 +2,37 @@ on:
   pull_request:
 
 jobs:
-  hello_world_default:
+  services-and-container:
+    runs-on: codebuild-korosuke613_playground_github_actions_test-${{ github.run_id }}-${{ github.run_attempt }}
+    services:
+      nginx:
+        image: public.ecr.aws/nginx/nginx:latest
+    container: public.ecr.aws/ubuntu/ubuntu:latest
+    steps:
+      - run: echo "Hello World!"
+      - run: cat /etc/os-release
+      - run: apt-get update && apt-get install -y curl
+      - run: curl --retry 5 --retry-delay 1 --retry-all-errors http://nginx
+
+  services:
     runs-on: codebuild-korosuke613_playground_github_actions_test-${{ github.run_id }}-${{ github.run_attempt }}
     services:
       nginx:
         image: public.ecr.aws/nginx/nginx:latest
         ports:
           - 8080:80
-    container: ubuntu
     steps:
       - run: echo "Hello World!"
-      - run: cat /etc/os-release 
-      - run: apt-get update && apt-get install -y curl
-      - run: curl http://localhost:8080
+      - run: cat /etc/image-id
+      - run: curl --retry 5 --retry-delay 1 --retry-all-errors http://localhost:${{ job.services.nginx.ports[80] }}
+
+  normal:
+    runs-on: ubuntu-latest
+    services:
+      nginx:
+        image: public.ecr.aws/nginx/nginx:latest
+        ports:
+          - 8080:80
+    steps:
+      - run: echo "Hello World!"
+      - run: curl --retry 5 --retry-delay 1 --retry-all-errors http://localhost:${{ job.services.nginx.ports[80] }}
