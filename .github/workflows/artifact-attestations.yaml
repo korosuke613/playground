@@ -1,0 +1,27 @@
+on:
+  pull_request:
+    paths:
+      - .github/workflows/artifact-attestations.yaml
+
+jobs:
+  attestation:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      id-token: write
+      attestations: write
+      contents: read
+
+    steps:
+      - run: date > date.txt
+      
+      - name: Attest Build Provenance
+        uses: actions/attest-build-provenance@897ed5eab6ed058a474202017ada7f40bfa52940 # v1.0.0
+        with:
+          subject-path: "date.txt"
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: date.txt
